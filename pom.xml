@@ -1169,6 +1169,12 @@
          <scope>provided</scope>
       </dependency>
       <dependency>
+         <groupId>tech.harmonysoft</groupId>
+         <artifactId>traute-javac</artifactId>
+         <version>${version.traute}</version>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
          <groupId>org.jacoco</groupId>
          <artifactId>org.jacoco.agent</artifactId>
          <classifier>runtime</classifier>
@@ -1459,13 +1465,6 @@
                      <arg>-Xplugin:Traute</arg>
                      <arg>-Atraute.failure.text.parameter=$${PARAMETER_NAME} is mandatory</arg>
                   </compilerArgs>
-                  <annotationProcessorPaths>
-                     <path>
-                        <groupId>tech.harmonysoft</groupId>
-                        <artifactId>traute-javac</artifactId>
-                        <version>${version.traute}</version>
-                     </path>
-                  </annotationProcessorPaths>
                </configuration>
             </plugin>
          </plugins>
