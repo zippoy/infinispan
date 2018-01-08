@@ -6,7 +6,7 @@ import java.util.Set;
 import org.infinispan.Cache;
 import org.infinispan.context.Flag;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * A Node is a {@link Fqn named} logical grouping of data in the {@link TreeCache} API of JBoss {@link Cache}. A node

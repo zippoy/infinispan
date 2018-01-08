@@ -8,7 +8,7 @@ import org.infinispan.persistence.modifications.Store;
 import org.infinispan.persistence.spi.CacheLoader;
 import org.infinispan.persistence.support.DelegatingCacheLoader;
 
-import net.jcip.annotations.GuardedBy;
+import javax.annotation.concurrent.GuardedBy;
 
 /**
  * @author Mircea Markus

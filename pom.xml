@@ -264,7 +264,6 @@
       <version.jboss.spec>1.0.2.Final</version.jboss.spec>
       <version.jboss.xnio>3.2.2.Final</version.jboss.xnio>
       <version.jbossjta>5.0.4.Final</version.jbossjta>
-      <version.jcipannotations>1.0</version.jcipannotations>
       <version.jetty.http.client>9.4.5.v20170502</version.jetty.http.client>
       <version.jgoodies.forms>1.0.7</version.jgoodies.forms>
       <version.jmh>1.12</version.jmh>
@@ -1074,6 +1073,7 @@
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>${version.jsr305}</version>
+            <optional>true</optional>
          </dependency>
          <dependency>
             <groupId>org.elasticsearch</groupId>
@@ -1148,9 +1148,8 @@
          <scope>test</scope>
       </dependency>
       <dependency>
-         <groupId>net.jcip</groupId>
-         <artifactId>jcip-annotations</artifactId>
-         <version>${version.jcipannotations}</version>
+         <groupId>com.google.code.findbugs</groupId>
+         <artifactId>jsr305</artifactId>
          <optional>true</optional>
       </dependency>
       <dependency>

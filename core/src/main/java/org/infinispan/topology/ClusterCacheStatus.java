@@ -31,7 +31,7 @@ import org.infinispan.statetransfer.RebalanceType;
 import org.infinispan.util.logging.Log;
 import org.infinispan.util.logging.LogFactory;
 
-import net.jcip.annotations.GuardedBy;
+import javax.annotation.concurrent.GuardedBy;
 
 /**
  * Keeps track of a cache's status: members, current/pending consistent hashes, and rebalance status

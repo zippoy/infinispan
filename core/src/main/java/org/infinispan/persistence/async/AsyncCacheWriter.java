@@ -33,7 +33,7 @@ import org.infinispan.persistence.support.DelegatingCacheWriter;
 import org.infinispan.util.logging.Log;
 import org.infinispan.util.logging.LogFactory;
 
-import net.jcip.annotations.GuardedBy;
+import javax.annotation.concurrent.GuardedBy;
 
 /**
  * The AsyncCacheWriter is a delegating CacheStore that buffers changes and writes them asynchronously to

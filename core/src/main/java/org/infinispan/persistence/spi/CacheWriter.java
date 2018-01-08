@@ -3,7 +3,7 @@ package org.infinispan.persistence.spi;
 import org.infinispan.commons.api.Lifecycle;
 import org.infinispan.marshall.core.MarshalledEntry;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * Allows persisting data to an external storage, as opposed to the {@link CacheLoader}.

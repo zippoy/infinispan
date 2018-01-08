@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 import org.infinispan.functional.MetaParam;
 import org.infinispan.commons.util.Experimental;
 
-import net.jcip.annotations.NotThreadSafe;
+import javax.annotation.concurrent.NotThreadSafe;
 
 /**
  * Represents a {@link MetaParam} collection.

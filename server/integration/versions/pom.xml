@@ -38,7 +38,7 @@
       <version.com.github.ben-manes.caffeine>2.4.0</version.com.github.ben-manes.caffeine>
       <version.com.thoughtworks.paranamer>2.3</version.com.thoughtworks.paranamer>
       <version.commons.logging>1.1.1</version.commons.logging>
-      <version.net.jcip.annotations>1.0</version.net.jcip.annotations>
+      <version.javax.annotation.concurrent>1.0</version.javax.annotation.concurrent>
       <version.org.jboss.jandex>2.0.0.Final</version.org.jboss.jandex>
       <version.org.jboss.jbossts.jbossjts>4.16.2.Final</version.org.jboss.jbossts.jbossjts>
       <version.org.jboss.marshalling.jboss-marshalling>2.0.2.Final</version.org.jboss.marshalling.jboss-marshalling>
@@ -307,12 +307,6 @@
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>${version.commons.logging}</version>
-         </dependency>
-
-         <dependency>
-            <groupId>net.jcip</groupId>
-            <artifactId>jcip-annotations</artifactId>
-            <version>${version.net.jcip.annotations}</version>
          </dependency>
 
          <dependency>

@@ -16,7 +16,7 @@ import org.infinispan.registry.InternalCacheRegistry;
 import org.infinispan.transaction.TransactionMode;
 import org.infinispan.util.logging.LogFactory;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * A local cache for 'parsed' queries. Each cache manager has at most one QueryCache which is backed by a lazily

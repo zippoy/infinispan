@@ -26,7 +26,7 @@ import org.infinispan.util.TimeService;
 import org.infinispan.util.logging.Log;
 import org.infinispan.util.logging.LogFactory;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public class ExpirationManagerImpl<K, V> implements ExpirationManager<K, V> {

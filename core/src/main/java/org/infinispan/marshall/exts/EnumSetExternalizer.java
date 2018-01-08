@@ -14,7 +14,7 @@ import org.infinispan.commons.util.Util;
 import org.infinispan.marshall.core.Ids;
 import org.jboss.marshalling.util.IdentityIntMap;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * {@link EnumSet} externalizer.

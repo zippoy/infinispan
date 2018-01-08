@@ -25,7 +25,7 @@ import org.infinispan.util.KeyValuePair;
 import org.infinispan.util.logging.Log;
 import org.infinispan.util.logging.LogFactory;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 // TODO [anistor] This class must be removed in 10.0 after we remove autodetection.
 

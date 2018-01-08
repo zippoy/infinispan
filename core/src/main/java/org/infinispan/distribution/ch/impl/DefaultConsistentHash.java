@@ -22,7 +22,7 @@ import org.infinispan.remoting.transport.Address;
 import org.infinispan.topology.PersistentUUID;
 import org.infinispan.commons.util.SmallIntSet;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Default {@link ConsistentHash} implementation. This object is immutable.

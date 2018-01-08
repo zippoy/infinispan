@@ -21,7 +21,7 @@ import org.infinispan.remoting.transport.Address;
 import org.infinispan.server.core.ExternalizerIds;
 import org.infinispan.transaction.xa.GlobalTransaction;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * A transaction state stored globally in all the cluster members.

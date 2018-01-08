@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.hibernate.search.query.engine.spi.EntityInfo;
 
-import net.jcip.annotations.NotThreadSafe;
+import javax.annotation.concurrent.NotThreadSafe;
 
 /**
  * This is the implementation class for the interface ResultIterator. It is what is

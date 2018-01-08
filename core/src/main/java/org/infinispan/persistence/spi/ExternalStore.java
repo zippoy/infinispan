@@ -1,6 +1,6 @@
 package org.infinispan.persistence.spi;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * Basic interface for interacting with an external store in a read-write mode.

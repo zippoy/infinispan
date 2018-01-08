@@ -17,7 +17,7 @@ import org.infinispan.client.hotrod.impl.transport.tcp.TcpTransportFactory.Clust
 import org.infinispan.client.hotrod.logging.Log;
 import org.infinispan.client.hotrod.logging.LogFactory;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Base class for all the operations that need retry logic: if the operation fails due to connection problems, try with

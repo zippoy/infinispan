@@ -14,7 +14,7 @@ import org.infinispan.remoting.transport.ResponseCollector;
 import org.infinispan.util.logging.Log;
 import org.infinispan.util.logging.LogFactory;
 
-import net.jcip.annotations.GuardedBy;
+import javax.annotation.concurrent.GuardedBy;
 
 /**
  * Request implementation that waits for responses from multiple target nodes.

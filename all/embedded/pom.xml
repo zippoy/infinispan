@@ -341,7 +341,7 @@
                            !javax.inject.*,
                            !javax.interceptor.*,
                            !javax.persistence.*,
-                           !net.jcip.annotations,
+                           !javax.annotation.concurrent,
                            !org.hibernate.*,
                            !javassist.*,
                            !org.apache.log4j.*,

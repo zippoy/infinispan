@@ -12,7 +12,7 @@ import org.infinispan.commons.marshall.AbstractExternalizer;
 import org.infinispan.commons.util.Util;
 import org.infinispan.marshall.core.Ids;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * This xid implementation is needed because {@link javax.transaction.xa.Xid} is not {@link java.io.Serializable} and

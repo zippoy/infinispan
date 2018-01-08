@@ -12,7 +12,7 @@ import org.infinispan.interceptors.AsyncInterceptorChain;
 import org.infinispan.interceptors.impl.CacheMgmtInterceptor;
 import org.infinispan.notifications.cachelistener.CacheNotifier;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public class EvictionManagerImpl<K, V> implements EvictionManager<K, V> {

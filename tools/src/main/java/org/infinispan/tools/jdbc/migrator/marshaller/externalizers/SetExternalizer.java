@@ -13,7 +13,7 @@ import org.infinispan.commons.marshall.MarshallUtil;
 import org.infinispan.commons.util.Util;
 import org.jboss.marshalling.util.IdentityIntMap;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Set externalizer for all set implementations, i.e. HashSet and TreeSet

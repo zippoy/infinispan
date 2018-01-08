@@ -5,6 +5,8 @@ import static org.infinispan.lucene.impl.DirectoryImplementor.getAddress;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javax.annotation.concurrent.GuardedBy;
+
 import org.infinispan.AdvancedCache;
 import org.infinispan.context.Flag;
 import org.infinispan.lucene.FileCacheKey;
@@ -12,8 +14,6 @@ import org.infinispan.lucene.FileListCacheKey;
 import org.infinispan.lucene.FileMetadata;
 import org.infinispan.util.logging.Log;
 import org.infinispan.util.logging.LogFactory;
-
-import net.jcip.annotations.GuardedBy;
 
 /**
  * Collects operations on the existing fileList, stored as a Set<String> having key

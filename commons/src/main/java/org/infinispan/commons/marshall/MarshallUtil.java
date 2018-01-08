@@ -12,7 +12,7 @@ import java.util.UUID;
 
 import org.infinispan.commons.util.Util;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * MarshallUtil.

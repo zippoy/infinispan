@@ -15,7 +15,7 @@ import org.infinispan.commons.io.UnsignedNumeric;
 import org.infinispan.commons.marshall.AbstractExternalizer;
 import org.infinispan.lucene.ExternalizerIds;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * Maintains a Set of filenames contained in the index. Does not implement Set for simplicity, and does internal locking

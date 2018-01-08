@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 import org.infinispan.tree.Fqn;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Compares the order of two FQN. Sorts by name, then by depth, e.g.

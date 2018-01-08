@@ -8,8 +8,8 @@ import org.infinispan.commons.marshall.Ids;
 import org.infinispan.commons.marshall.exts.NoStateExternalizer;
 import org.infinispan.commons.util.Util;
 
-import net.jcip.annotations.Immutable;
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.Immutable;
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * MurmurHash3 implementation in Java, based on Austin Appleby's <a href=

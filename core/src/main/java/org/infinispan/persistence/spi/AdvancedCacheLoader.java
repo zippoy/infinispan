@@ -5,7 +5,7 @@ import java.util.concurrent.Executor;
 import org.infinispan.filter.KeyFilter;
 import org.infinispan.marshall.core.MarshalledEntry;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * A specialised extension of the {@link CacheLoader} interface that allows processing parallel iteration over the

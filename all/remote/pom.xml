@@ -287,7 +287,7 @@
                            !sun.reflect,
                            !com.sun.jmx.*,
                            !com.sun.jdi.*,
-                           !net.jcip.annotations,
+                           !javax.annotation.concurrent,
                            !org.jboss.logmanager.*,
                            !org.jboss.logging.annotations.*,
                            !org.jboss.modules,

@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 
 import org.jboss.marshalling.ByteOutput;
 
-import net.jcip.annotations.NotThreadSafe;
+import javax.annotation.concurrent.NotThreadSafe;
 
 /**
  * Extends ByteArrayOutputStream, but exposes the internal buffer. Using this, callers don't need to call toByteArray()

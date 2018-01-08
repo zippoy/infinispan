@@ -1,6 +1,6 @@
 package org.infinispan.distribution.ch.impl;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 import org.infinispan.commons.hash.Hash;
 import org.infinispan.commons.marshall.Ids;
 import org.infinispan.commons.marshall.InstanceReusingAdvancedExternalizer;

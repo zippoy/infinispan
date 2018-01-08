@@ -37,7 +37,7 @@ import org.infinispan.functional.impl.ReadWriteMapImpl;
 import org.infinispan.util.ByteString;
 import org.infinispan.util.concurrent.CompletableFutures;
 
-import net.jcip.annotations.GuardedBy;
+import javax.annotation.concurrent.GuardedBy;
 
 /**
  * A weak consistent counter implementation.
