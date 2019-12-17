@@ -25,4 +25,6 @@ public interface ServerManagement {
    CacheIgnoreManager getIgnoreManager(String cacheManager);
 
    Map<String, String> getLoginConfiguration();
+
+   Map<String, List<String>> getServerAddresses();
 }

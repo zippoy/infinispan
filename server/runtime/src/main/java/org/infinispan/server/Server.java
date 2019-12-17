@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -479,5 +480,17 @@ public class Server implements ServerManagement, AutoCloseable {
 
    public ComponentStatus getStatus() {
       return status;
+   }
+
+   @Override
+   public Map<String, List<String>> getServerAddresses() {
+      Map<String, List<String>> serverAddresses = new HashMap<>();
+      for(Map.Entry<String, ProtocolServer> protocolServer : protocolServers.entrySet()) {
+         List<String> addresses = new ArrayList<>();
+         serverAddresses.put(protocolServer.getKey(), addresses);
+      }
+
+      return serverAddresses;
+
    }
 }
