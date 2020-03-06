@@ -1,5 +1,6 @@
 package org.infinispan.server.extensions;
 
+import org.infinispan.notifications.cachelistener.filter.CacheEventFilterFactory;
 import org.infinispan.server.test.core.ServerRunMode;
 import org.infinispan.server.test.junit4.InfinispanServerRule;
 import org.infinispan.server.test.junit4.InfinispanServerRuleBuilder;
@@ -18,6 +19,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
       ScriptingTasks.class,
       ServerTasks.class,
+      CustomEventFilter.class
 })
 public class ExtensionsIT {
    @ClassRule
@@ -34,9 +36,13 @@ public class ExtensionsIT {
       hello.addAsServiceProvider(ServerTask.class, HelloServerTask.class);
 
       JavaArchive distHello = ShrinkWrap.create(JavaArchive.class, "distributed-hello-server-task.jar");
-      distHello.addPackage(DistributedHelloServerTask.class.getPackage());
+      distHello.addClass(DistributedHelloServerTask.class);
       distHello.addAsServiceProvider(ServerTask.class, DistributedHelloServerTask.class);
 
-      return new JavaArchive[] {hello, distHello};
+      JavaArchive staticFilterFactory = ShrinkWrap.create(JavaArchive.class, "static-filter-factory.jar");
+      staticFilterFactory.addClass(StaticCacheEventFilterFactory.class);
+      staticFilterFactory.addAsServiceProvider(CacheEventFilterFactory.class, StaticCacheEventFilterFactory.class);
+
+      return new JavaArchive[] {hello, distHello, staticFilterFactory};
    }
 }
