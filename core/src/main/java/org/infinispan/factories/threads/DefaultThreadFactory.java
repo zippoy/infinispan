@@ -3,6 +3,8 @@ package org.infinispan.factories.threads;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.infinispan.commons.jdkspecific.ThreadCreator;
+
 /**
  * Thread factory based on JBoss Thread's JBossThreadFactory.
  *
@@ -108,6 +110,6 @@ public class DefaultThreadFactory implements ThreadFactory {
    }
 
    protected Thread actualThreadCreate(ThreadGroup threadGroup, Runnable target) {
-      return new Thread(threadGroup, target);
+      return ThreadCreator.createThread(threadGroup, target);
    }
 }
