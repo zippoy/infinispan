@@ -10,7 +10,6 @@ import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -29,6 +28,7 @@ import org.aesh.readline.ReadlineConsole;
 import org.aesh.terminal.Connection;
 import org.infinispan.cli.activators.ContextAwareCommandActivatorProvider;
 import org.infinispan.cli.commands.Batch;
+import org.infinispan.cli.commands.kubernetes.Kube;
 import org.infinispan.cli.completers.ContextAwareCompleterInvocationProvider;
 import org.infinispan.cli.impl.CliCommandNotFoundHandler;
 import org.infinispan.cli.impl.CliMode;
@@ -39,10 +39,14 @@ import org.infinispan.cli.impl.ContextImpl;
 import org.infinispan.cli.impl.SSLContextSettings;
 import org.infinispan.cli.util.ZeroSecurityHostnameVerifier;
 import org.infinispan.cli.util.ZeroSecurityTrustManager;
+import org.infinispan.commons.jdkspecific.Process;
 import org.infinispan.commons.util.ServiceFinder;
 import org.infinispan.commons.util.Version;
 import org.wildfly.security.keystore.KeyStoreUtil;
 import org.wildfly.security.provider.util.ProviderUtil;
+
+import io.fabric8.kubernetes.client.DefaultKubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClient;
 
 /**
  * CLI
@@ -75,46 +79,55 @@ public class CLI {
       String trustStorePath = null;
       String trustStorePassword = null;
       boolean trustAll = false;
-      Iterator<String> iterator = Arrays.stream(args).iterator();
-      while (iterator.hasNext()) {
-         String command = iterator.next();
+
+      for (Process process = Process.getInstance(); process != null ; process = process.getParent()) {
+         if (process.getName().contains("kubectl")) {
+            mode = CliMode.KUBERNETES;
+            break;
+         }
+      }
+
+      int i = 0;
+
+      while (i < args.length) {
+         String arg = args[i];
          String parameter = null;
 
-         if (command.startsWith("--")) {
-            int equals = command.indexOf('=');
+         if (arg.startsWith("--")) {
+            int equals = arg.indexOf('=');
             if (equals > 0) {
-               parameter = command.substring(equals + 1);
-               command = command.substring(0, equals);
+               parameter = arg.substring(equals + 1);
+               arg = arg.substring(0, equals);
             }
-         } else if (command.startsWith("-D")) {
-            if (command.length() < 3) {
-               stdErr.println(MSG.invalidArgument(command));
+         } else if (arg.startsWith("-D")) {
+            if (arg.length() < 3) {
+               stdErr.println(MSG.invalidArgument(arg));
                exit(1);
                return;
             } else {
-               parameter = command.substring(2);
-               command = command.substring(0, 2);
+               parameter = arg.substring(2);
+               arg = arg.substring(0, 2);
             }
-         } else if (command.startsWith("-")) {
-            if (command.length() != 2) {
-               stdErr.println(MSG.invalidShortArgument(command));
+         } else if (arg.startsWith("-")) {
+            if (arg.length() != 2) {
+               stdErr.println(MSG.invalidShortArgument(arg));
                exit(1);
                return;
             }
          } else {
-            stdErr.println(MSG.invalidArgument(command));
-            exit(1);
-            return;
+            // We have reached the end of the switches, everything else is to be interpreted as actual commands and their options/arguments
+            args = Arrays.copyOfRange(args, i, args.length);
+            break;
          }
-         switch (command) {
+         switch (arg) {
             case "-c":
-               parameter = iterator.next();
+               parameter = args[++i];
                // Fall through
             case "--connect":
                connectionString = parameter;
                break;
             case "-f":
-               parameter = iterator.next();
+               parameter = args[++i];
                // Fall through
             case "--file":
                inputFile = parameter;
@@ -125,13 +138,17 @@ public class CLI {
                   exit(1);
                }
                break;
+            case "-k":
+            case "--kubernetes":
+               mode = CliMode.KUBERNETES;
+               break;
             case "-t":
-               parameter = iterator.next();
+               parameter = args[++i];
             case "--truststore":
                trustStorePath = parameter;
                break;
             case "-s":
-               parameter = iterator.next();
+               parameter = args[++i];
             case "--truststore-password":
                trustStorePassword = parameter;
                break;
@@ -154,10 +171,11 @@ public class CLI {
                exit(0);
                return;
             default:
-               stdErr.println(MSG.unknownArgument(command));
+               stdErr.println(MSG.unknownArgument(arg));
                exit(1);
                return;
          }
+         ++i;
       }
       if (trustStorePath != null) {
          try (FileInputStream f = new FileInputStream(trustStorePath)) {
@@ -178,6 +196,7 @@ public class CLI {
       if (connectionString != null) {
          context.connect(null, connectionString);
       }
+
       switch (mode) {
          case BATCH:
             batchRun();
@@ -185,13 +204,26 @@ public class CLI {
          case INTERACTIVE:
             interactiveRun();
             break;
+         case KUBERNETES:
+            kubernetesRun(args);
+            break;
       }
    }
 
    private void batchRun() {
+      AeshCommandRuntimeBuilder runtimeBuilder = createRuntimeBuilder(Batch.class);
+
+      CliRuntimeRunner cliRunner = CliRuntimeRunner.builder("batch", runtimeBuilder.build());
+      cliRunner
+            .args(new String[]{"run", inputFile})
+            .execute();
+      context.disconnect();
+   }
+
+   private AeshCommandRuntimeBuilder createRuntimeBuilder(Class<? extends Command> rootCommand) {
       AeshCommandRegistryBuilder registryBuilder = AeshCommandRegistryBuilder.builder();
       try {
-         registryBuilder.command(Batch.class);
+         registryBuilder.command(rootCommand);
          List<Class<? extends Command>> commands = new ArrayList<>();
          for (Command command : ServiceFinder.load(Command.class, this.getClass().getClassLoader())) {
             commands.add(command.getClass());
@@ -212,12 +244,7 @@ public class CLI {
       if (shell != null) {
          runtimeBuilder.shell(shell);
       }
-
-      CliRuntimeRunner cliRunner = CliRuntimeRunner.builder("batch", runtimeBuilder.build());
-      cliRunner
-            .args(new String[]{"run", inputFile})
-            .execute();
-      context.disconnect();
+      return runtimeBuilder;
    }
 
    private void interactiveRun() {
@@ -247,6 +274,16 @@ public class CLI {
       } catch (IOException e) {
          throw new RuntimeException(e);
       }
+   }
+
+   private void kubernetesRun(String[] args) {
+      KubernetesClient kubeClient = new DefaultKubernetesClient();
+      context.setKubernetesClient(kubeClient);
+
+      AeshCommandRuntimeBuilder runtimeBuilder = createRuntimeBuilder(Kube.class);
+      CliRuntimeRunner cliRunner = CliRuntimeRunner.builder("kube", runtimeBuilder.build()).args(args);
+      cliRunner.execute();
+      context.disconnect();
    }
 
    private CommandRegistry initializeCommands() {

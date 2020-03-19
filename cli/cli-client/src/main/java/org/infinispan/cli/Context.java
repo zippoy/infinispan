@@ -12,6 +12,8 @@ import org.infinispan.cli.commands.CommandInputLine;
 import org.infinispan.cli.connection.Connection;
 import org.infinispan.cli.impl.SSLContextSettings;
 
+import io.fabric8.kubernetes.client.KubernetesClient;
+
 /**
  * Context.
  *
@@ -66,4 +68,8 @@ public interface Context extends AeshContext {
    void setConsole(ReadlineConsole console);
 
    CommandRegistry<? extends CommandInvocation> getRegistry();
+
+   void setKubernetesClient(KubernetesClient kubernetesClient);
+
+   KubernetesClient getKubernetesClient();
 }

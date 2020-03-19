@@ -129,6 +129,7 @@
       <version.eclipse.aether>1.1.0</version.eclipse.aether>
       <version.eclipse.sisu>0.3.3</version.eclipse.sisu>
       <version.elasticsearch>5.6.8</version.elasticsearch>
+      <version.fabric8.kubernetes-client>4.9.0</version.fabric8.kubernetes-client>
       <version.glassfish.jaxb>2.3.1</version.glassfish.jaxb>
       <version.glassfish.json>1.1.4</version.glassfish.json>
       <version.groovy>2.4.8</version.groovy>

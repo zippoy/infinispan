@@ -29,6 +29,8 @@ import org.infinispan.cli.util.SystemUtils;
 import org.infinispan.commons.util.Util;
 import org.infinispan.commons.util.Version;
 
+import io.fabric8.kubernetes.client.KubernetesClient;
+
 /**
  * ContextImpl.
  *
@@ -43,6 +45,7 @@ public class ContextImpl implements Context, AeshContext {
    private ReadlineConsole console;
    private SSLContextSettings sslContext;
    private CommandRegistry<? extends CommandInvocation> registry;
+   private KubernetesClient kubernetesClient;
 
    public ContextImpl(Properties properties) {
       this.properties = properties;
@@ -162,6 +165,7 @@ public class ContextImpl implements Context, AeshContext {
          Util.close(connection);
          connection = null;
       }
+      Util.close(kubernetesClient);
       refreshPrompt();
    }
 
@@ -221,5 +225,15 @@ public class ContextImpl implements Context, AeshContext {
    @Override
    public String exportedVariable(String key) {
       return null;
+   }
+
+   @Override
+   public void setKubernetesClient(KubernetesClient kubernetesClient) {
+      this.kubernetesClient = kubernetesClient;
+   }
+
+   @Override
+   public KubernetesClient getKubernetesClient() {
+      return kubernetesClient;
    }
 }

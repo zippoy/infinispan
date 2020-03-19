@@ -3,6 +3,7 @@ package org.infinispan.cli.logging;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.nio.file.AccessDeniedException;
+import java.util.NoSuchElementException;
 
 import org.jboss.logging.annotations.Cause;
 import org.jboss.logging.annotations.Message;
@@ -66,6 +67,9 @@ public interface Messages {
    @Message("Error: %s")
    IOException error(String s);
 
+   @Message("Error: %s")
+   RuntimeException genericError(String s, @Cause Throwable t);
+
    @Message("The user is not allowed to access the server resource: %s")
    AccessDeniedException forbidden(String s);
 
@@ -92,4 +96,19 @@ public interface Messages {
 
    @Message("Invalid resource '%s'")
    IllegalArgumentException invalidResource(String name);
+
+   @Message("No services found")
+   NoSuchElementException noServicesFound();
+
+   @Message("The service must be specified")
+   IllegalStateException specifyService();
+
+   @Message("The service '%s' is of the wrong type")
+   IllegalArgumentException wrongServiceType(String serviceName);
+
+   @Message("Cannot find service '%s'")
+   IllegalArgumentException noSuchService(String serviceName);
+
+   @Message("Cannot find generated secrets for service '%s'")
+   IllegalStateException noGeneratedSecret(String serviceName);
 }

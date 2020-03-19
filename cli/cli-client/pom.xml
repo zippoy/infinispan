@@ -36,6 +36,29 @@
          <artifactId>jackson-databind</artifactId>
       </dependency>
       <dependency>
+         <groupId>com.fasterxml.jackson.dataformat</groupId>
+         <artifactId>jackson-dataformat-yaml</artifactId>
+         <scope>compile</scope>
+      </dependency>
+      <dependency>
+         <groupId>io.fabric8</groupId>
+         <artifactId>kubernetes-client</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.yaml</groupId>
+         <artifactId>snakeyaml</artifactId>
+         <scope>compile</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-core</artifactId>
+         <optional>true</optional>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-slf4j-impl</artifactId>
+      </dependency>
+      <dependency>
          <groupId>org.jboss.remotingjmx</groupId>
          <artifactId>remoting-jmx</artifactId>
          <optional>true</optional>
@@ -97,6 +120,7 @@
             <artifactId>maven-bundle-plugin</artifactId>
             <configuration>
                <instructions>
+                  <Main-Class>org.infinispan.cli.CLI</Main-Class>
                   <Export-Package>
                      ${project.groupId}.cli.*;version=${project.version};-split-package:=error
                   </Export-Package>
@@ -126,4 +150,100 @@
          </plugin>
       </plugins>
    </build>
+
+   <profiles>
+      <profile>
+         <id>native</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-enforcer-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <id>graalvm-check</id>
+                        <goals>
+                           <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                           <rules>
+                              <requireEnvironmentVariable>
+                                 <variableName>GRAALVM_HOME</variableName>
+                              </requireEnvironmentVariable>
+                           </rules>
+                           <fail>true</fail>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-dependency-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                           <goal>build-classpath</goal>
+                        </goals>
+                        <configuration>
+                           <outputProperty>maven.compile.classpath</outputProperty>
+                           <pathSeparator>:</pathSeparator>
+                           <includeScope>compile</includeScope>
+                        </configuration>
+                     </execution>
+                  </executions>
+                  <configuration>
+                     <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                     <silent>true</silent>
+                  </configuration>
+               </plugin>
+               <plugin>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>exec-maven-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <id>generate-native-reflection</id>
+                        <phase>package</phase>
+                        <goals>
+                           <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                           <executable>java</executable>
+                           <workingDirectory>target</workingDirectory>
+                           <arguments>
+                              <argument>-cp</argument>
+                              <classpath/>
+                              <argument>org.aesh.util.GraalReflectionGenerator</argument>
+                              <argument>org.infinispan.cli.commands.Batch</argument>
+                           </arguments>
+                        </configuration>
+                     </execution>
+                     <execution>
+                        <id>native</id>
+                        <phase>package</phase>
+                        <goals>
+                           <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                           <executable>${env.GRAALVM_HOME}/bin/native-image</executable>
+                           <workingDirectory>${project.build.directory}</workingDirectory>
+                           <arguments>
+                              <argument>--verbose</argument>
+                              <argument>-H:+ReportUnsupportedElementsAtRuntime</argument>
+                              <argument>-H:ReflectionConfigurationFiles=batch_reflection.json</argument>
+                              <argument>-cp</argument>
+                              <argument>${maven.compile.classpath}</argument>
+                              <argument>-jar</argument>
+                              <argument>${project.build.finalName}.jar</argument>
+                              <argument>infinispan</argument>
+                           </arguments>
+                        </configuration>
+                     </execution>
+                  </executions>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+   </profiles>
 </project>
