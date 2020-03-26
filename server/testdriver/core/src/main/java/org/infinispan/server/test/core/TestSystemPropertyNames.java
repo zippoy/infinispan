@@ -34,6 +34,10 @@ public class TestSystemPropertyNames {
     */
    public static final String INFINISPAN_TEST_SERVER_CONTAINER_TIMEOUT_SECONDS = "org.infinispan.test.server.container.timeoutSeconds";
    /**
+    * The number of servers to start in clustered tests
+    */
+   public static final String INFINISPAN_TEST_SERVER_NUM_SERVERS = "org.infinispan.test.server.numServers";
+   /**
     * The path to a local installation of the server
     */
    public static final String INFINISPAN_TEST_SERVER_DIR = "org.infinispan.test.server.dir";

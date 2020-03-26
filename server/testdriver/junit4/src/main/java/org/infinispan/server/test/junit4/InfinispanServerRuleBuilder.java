@@ -1,5 +1,7 @@
 package org.infinispan.server.test.junit4;
 
+import static org.infinispan.server.test.core.TestSystemPropertyNames.INFINISPAN_TEST_SERVER_NUM_SERVERS;
+
 import java.util.Properties;
 
 import org.infinispan.server.test.core.InfinispanServerTestConfiguration;
@@ -17,7 +19,7 @@ public class InfinispanServerRuleBuilder {
 
    private final String configurationFile;
    private String[] mavenArtifacts;
-   private int numServers = 2;
+   private int numServers = Integer.getInteger(INFINISPAN_TEST_SERVER_NUM_SERVERS, 2);
    private Properties properties = new Properties(System.getProperties());
    private ServerRunMode runMode = ServerRunMode.DEFAULT;
    private JavaArchive[] archives;

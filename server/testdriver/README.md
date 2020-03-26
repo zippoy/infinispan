@@ -118,6 +118,7 @@ The following is a list of properties which affect the build:
 * `org.infinispan.test.server.jdbc.database.password` database password. If it's a external database
 * `org.infinispan.test.server.jdbc.database.driverClass` database jdbc driver name. If it's a external database
 * `org.infinispan.test.server.jdbc.image.tag` Docker image version to be used during persistence tests.
+* `org.infinispan.test.server.numServers` the number of servers to start in clustered tests. Defaults to 2.
 
 
 ## JMX
