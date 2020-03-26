@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.infinispan.Cache;
+import org.infinispan.commons.test.CommonsTestingUtil;
 import org.infinispan.commons.test.ThreadLeakChecker;
 import org.infinispan.configuration.cache.CacheMode;
 import org.infinispan.configuration.cache.ConfigurationBuilder;

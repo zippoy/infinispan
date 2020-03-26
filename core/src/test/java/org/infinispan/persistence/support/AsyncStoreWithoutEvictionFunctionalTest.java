@@ -37,13 +37,6 @@ public class AsyncStoreWithoutEvictionFunctionalTest extends AbstractInfinispanT
    private boolean segmented;
    private File tmpDirectory;
 
-   @AfterClass(alwaysRun = true)
-   public void clearTempDir() {
-      if (tmpDirectory != null) {
-         Util.recursiveFileRemove(tmpDirectory);
-      }
-   }
-
    AsyncStoreWithoutEvictionFunctionalTest segmented(boolean segmented) {
       this.segmented = segmented;
       return this;
@@ -92,6 +85,9 @@ public class AsyncStoreWithoutEvictionFunctionalTest extends AbstractInfinispanT
    @AfterClass
    public void tearDown() throws Exception {
       TestingUtil.killCacheManagers(dcm);
+      if (tmpDirectory != null) {
+         Util.recursiveFileRemove(tmpDirectory);
+      }
    }
 
    @Test
