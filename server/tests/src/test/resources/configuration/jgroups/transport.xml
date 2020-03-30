@@ -1,0 +1,3 @@
+<jgroups>
+   <stack-file name="test" path="${org.infinispan.test.server.transport:test-jgroups-tcp.xml}"/>
+</jgroups>
