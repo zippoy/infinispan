@@ -1,4 +1,4 @@
-package org.infinispan.server.security;
+package org.infinispan.server.security.authorization;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,6 +11,7 @@ import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
 import org.infinispan.client.hotrod.exceptions.HotRodClientException;
 import org.infinispan.client.hotrod.security.VoidCallbackHandler;
 import org.infinispan.configuration.cache.CacheMode;
+import org.infinispan.server.security.Common;
 import org.infinispan.server.test.junit4.InfinispanServerRule;
 import org.infinispan.server.test.junit4.InfinispanServerRuleBuilder;
 import org.infinispan.server.test.junit4.InfinispanServerTestMethodRule;
