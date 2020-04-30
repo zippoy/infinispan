@@ -16,12 +16,14 @@ import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import javax.security.auth.x500.X500Principal;
 
+import org.infinispan.cli.user.UserTool;
 import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
 import org.infinispan.commons.test.CommonsTestingUtil;
 import org.infinispan.commons.test.Exceptions;
@@ -29,7 +31,6 @@ import org.infinispan.commons.util.Util;
 import org.infinispan.lifecycle.ComponentStatus;
 import org.infinispan.security.AuthorizationPermission;
 import org.infinispan.server.Server;
-import org.infinispan.server.security.UserTool;
 import org.infinispan.server.test.api.TestUser;
 import org.wildfly.security.x500.cert.BasicConstraintsExtension;
 import org.wildfly.security.x500.cert.SelfSignedX509CertificateAndSigningKey;
@@ -161,14 +162,14 @@ public abstract class AbstractInfinispanServerDriver implements InfinispanServer
 
    protected void createUserFile(String realm) {
       // Create users and groups for individual permissions
+      UserTool userTool = new UserTool(rootDir.getAbsolutePath());
       for (AuthorizationPermission permission : AuthorizationPermission.values()) {
          String name = permission.name().toLowerCase();
-         UserTool.main("-b", "-s", rootDir.getAbsolutePath(), "-r", realm, "-u", name + "_user", "-p", name, "-g", name);
+         userTool.createUser(name + "_user", name, realm, false, Collections.singletonList(name), null);
       }
-
       // Create users with composite roles
       for(TestUser user : TestUser.values()) {
-         UserTool.main("-b", "-s", rootDir.getAbsolutePath(), "-r", realm, "-u", user.getUser(), "-p", user.getPassword(), "-g", user.getRole());
+         userTool.createUser(user.getUser(), user.getPassword(), realm, false, user.getRoles(), null);
       }
    }
 

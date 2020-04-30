@@ -159,4 +159,31 @@ public interface Messages {
 
    @Message("The patch archive appears to have a corrupt entry for: %s")
    String patchCorruptArchive(PatchOperation operation);
+
+   @Message(value = "Specify a username: ")
+   String userToolUsername();
+
+   @Message(value = "Set a password for the user: ")
+   String userToolPassword();
+
+   @Message(value = "Confirm the password for the user: ")
+   String userToolPasswordConfirm();
+
+   @Message(value = "User `%s` already exists")
+   IllegalStateException userToolUserExists(String username);
+
+   @Message(value = "Cannot add user `%s` without a password.")
+   String userToolNoPassword(String username);
+
+   @Message("Error accessing file '%s'")
+   RuntimeException userToolIOError(Path path, @Cause IOException e);
+
+   @Message("Unkown password encryption algorithm: '%s'")
+   IllegalArgumentException userToolUnknownAlgorithm(String algorithm);
+
+   @Message(value = "User `%s` does not exist")
+   IllegalArgumentException userToolNoSuchUser(String username);
+
+   @Message(value = "{ username: \"%s\", realm: \"%s\", groups = %s }")
+   String userDescribe(String username, String realm, String[] userGroups);
 }
